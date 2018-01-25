@@ -7,6 +7,10 @@
 
 package org.usfirst.frc.team991.robot;
 
+import org.usfirst.frc.team991.robot.commands.popControl;
+import org.usfirst.frc.team991.robot.commands.shootCube;
+import org.usfirst.frc.team991.robot.subsystems.Pneumatics.GearSetting;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -40,6 +44,15 @@ public class OI {
 	public Joystick getGamepad1(){
 		return gamepad1;
 	}
+	
+	public OI() {
+		/*button_x.whenPressed(new shootCube());
+		button_b.whenPressed(new popControl(GearSetting.HOLD));
+		button_a.whenPressed(new popControl(GearSetting.RELEASE));*/
+		
+		
+	}
+	
 	
 	
 	// There are a few additional built in buttons you can use. Additionally,
