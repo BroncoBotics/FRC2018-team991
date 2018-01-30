@@ -13,6 +13,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.text.DecimalFormat;
+
+import org.usfirst.frc.team991.robot.commands.auto.DriveStraight;
+import org.usfirst.frc.team991.robot.commands.auto.NullOp;
+import org.usfirst.frc.team991.robot.commands.auto.StraightSwitch;
 import org.usfirst.frc.team991.robot.subsystems.Arm;
 import org.usfirst.frc.team991.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team991.robot.subsystems.Pneumatics;
@@ -20,22 +26,32 @@ import org.usfirst.frc.team991.robot.subsystems.Sucker;
 
 public class Robot extends IterativeRobot {
 	public static Drivetrain drivetrain;
-	//public static Arm arm;
+	public static Arm arm;
 	public static Pneumatics pneumatics;
 	public static OI oi;
 	public static Sucker sucker;
+	
+	Command autoCommand;
+	SendableChooser<Command> chooser = new SendableChooser<>();
 
 	@Override
 	public void robotInit() {
 		drivetrain = new Drivetrain();
-		//arm = new Arm();
-		//pneumatics = new Pneumatics();
+		arm = new Arm();
+		pneumatics = new Pneumatics();
 		oi = new OI();
 		sucker = new Sucker();
 		
+		drivetrain.calibrateGyro();
+		drivetrain.resetGryo();
+		
+		chooser.addDefault("No Auto", new NullOp());
+		chooser.addObject("Drive Straight", new DriveStraight(0.75,4));
+		chooser.addObject("Switch is straight ahead", new StraightSwitch());
+		
 		
 		SmartDashboard.putData(drivetrain);
-		//SmartDashboard.putData(arm);
+		SmartDashboard.putData(arm);
 		
 	}
 
@@ -48,7 +64,18 @@ public class Robot extends IterativeRobot {
 	public void disabledInit() {
 
 	}
-
+	
+	@Override
+	public void robotPeriodic(){
+		DecimalFormat df = new DecimalFormat("##.##");
+		SmartDashboard.putString("Gyro-X", df.format(drivetrain.getGyro().getAngleX()));
+	    SmartDashboard.putString("Gyro-Y", df.format(drivetrain.getGyro().getAngleY()));
+	    SmartDashboard.putString("Gyro-Z", df.format(drivetrain.getGyro().getAngleZ()));
+	    
+	    SmartDashboard.putString("Accel-X", df.format(drivetrain.getGyro().getAccelX()));
+	    SmartDashboard.putString("Accel-Y", df.format(drivetrain.getGyro().getAccelY()));
+	    SmartDashboard.putString("Accel-Z", df.format(drivetrain.getGyro().getAccelZ()));
+	}
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();

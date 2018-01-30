@@ -8,6 +8,7 @@
 package org.usfirst.frc.team991.robot;
 
 import org.usfirst.frc.team991.robot.commands.popControl;
+import org.usfirst.frc.team991.robot.commands.resetGyro;
 import org.usfirst.frc.team991.robot.commands.shootCube;
 import org.usfirst.frc.team991.robot.subsystems.Pneumatics.GearSetting;
 
@@ -31,8 +32,8 @@ public class OI {
 	Joystick gamepad0 = new Joystick(0);
 	Joystick gamepad1 = new Joystick(1);
 	
-	Button button_a = new JoystickButton(gamepad0, 1),
-			button_b = new JoystickButton(gamepad0, 2),
+	Button button_a = new JoystickButton(gamepad1, 1),
+			button_b = new JoystickButton(gamepad1, 2),
 			button_x = new JoystickButton(gamepad0, 3),
 			button_y = new JoystickButton(gamepad0, 4),
 			button_rb = new JoystickButton(gamepad0, 5),
@@ -46,9 +47,10 @@ public class OI {
 	}
 	
 	public OI() {
-		/*button_x.whenPressed(new shootCube());
+		//button_x.whenPressed(new shootCube());
 		button_b.whenPressed(new popControl(GearSetting.HOLD));
-		button_a.whenPressed(new popControl(GearSetting.RELEASE));*/
+		button_a.whenPressed(new popControl(GearSetting.RELEASE));
+		button_x.whenPressed(new resetGyro());
 		
 		
 	}

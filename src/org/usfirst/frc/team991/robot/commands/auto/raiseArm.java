@@ -1,4 +1,4 @@
-package org.usfirst.frc.team991.robot.commands;
+package org.usfirst.frc.team991.robot.commands.auto;
 
 import org.usfirst.frc.team991.robot.Robot;
 
@@ -7,30 +7,36 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class runArmWithStick extends Command {
+public class raiseArm extends Command {
+	
+	private double powerVal;
 
-    public runArmWithStick() {
+    public raiseArm(double Power, double timeout) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.arm);
+    	setTimeout(timeout);
+    	powerVal = Power;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.moveArmPower(Robot.oi.getGamepad1().getRawAxis(1));
+    	Robot.arm.moveArmPower(powerVal);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return isTimedOut();
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.arm.moveArmPower(0.0);
     }
 
     // Called when another command which requires one or more of the same

@@ -16,22 +16,22 @@ public class popControl extends InstantCommand {
     public popControl(GearSetting set) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	//requires(Robot.pneumatics);
+    	requires(Robot.pneumatics);
     	this.setting = set;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	/*switch (setting) {
+    	switch (setting) {
     	case PUSH:
-    		Robot.pneumatics.pushCube();
+    		//Robot.pneumatics.pushCube();
     	case PULL:
-    		Robot.pneumatics.pullCube();
+    		//Robot.pneumatics.pullCube();
     	case HOLD:
     		Robot.pneumatics.holdCube();
     	case RELEASE:
     		Robot.pneumatics.releaseCube();
-    	}*/
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run

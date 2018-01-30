@@ -14,8 +14,8 @@ package org.usfirst.frc.team991.robot;
  * floating around.
  */
 public class RobotMap {
-	public static int actuatorLeft = 0;
-	public static int actuatorRight = 1;
+	
+	public static int armPrimary = 12;
 	
 	public static int leftFront = 5;//
 	public static int rightFront = 11;

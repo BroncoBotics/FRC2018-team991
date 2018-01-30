@@ -9,6 +9,9 @@ import org.usfirst.frc.team991.robot.commands.arcadeDriveWithJoystick;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import com.analog.adis16448.frc.ADIS16448_IMU;
+
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,14 +23,21 @@ public class Drivetrain extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	TalonSRX leftFront = new TalonSRX(RobotMap.leftFront);
-	TalonSRX rightFront = new TalonSRX(RobotMap.rightFront);
-	TalonSRX leftBack = new TalonSRX(RobotMap.leftBack);
-	TalonSRX rightBack = new TalonSRX(RobotMap.rightBack);
+	TalonSRX leftFront;
+	TalonSRX rightFront;
+	TalonSRX leftBack;
+	TalonSRX rightBack;
 	
-	
+	private ADIS16448_IMU gyro;
 
-	
+	public Drivetrain() {
+		leftFront = new TalonSRX(RobotMap.leftFront);
+		rightFront = new TalonSRX(RobotMap.rightFront);
+		leftBack = new TalonSRX(RobotMap.leftBack);
+		rightBack = new TalonSRX(RobotMap.rightBack);
+		
+		gyro = new ADIS16448_IMU();
+	}
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -88,19 +98,14 @@ public class Drivetrain extends Subsystem {
 
     	
     	DecimalFormat df = new DecimalFormat("#.##");
-    	
+    	DecimalFormat df2 = new DecimalFormat("##.##");
     	SmartDashboard.putString("Left Motor Speed", df.format(leftMotorSpeed));
     	SmartDashboard.putString("Right Motor Speed", df.format(rightMotorSpeed));
     	
-    	SmartDashboard.putString("LF", df.format(leftMotorSpeed));
-    	SmartDashboard.putString("RF", df.format(rightMotorSpeed));
-    	SmartDashboard.putString("LB", df.format(leftMotorSpeed));
-    	SmartDashboard.putString("RB", df.format(rightMotorSpeed));
+    	SmartDashboard.putNumber("Gyro AngleX", gyro.getAngleX());
+    	SmartDashboard.putNumber("Gyro AngleY", gyro.getAngleY());
+    	SmartDashboard.putNumber("Gyro AngleZ", gyro.getAngleZ());
     	
-    	SmartDashboard.putNumber("LF Raw", leftFront.getMotorOutputPercent());
-    	SmartDashboard.putNumber("RF Raw", rightFront.getMotorOutputPercent());
-    	SmartDashboard.putNumber("LB Raw", leftBack.getMotorOutputPercent());
-    	SmartDashboard.putNumber("RB Raw", rightBack.getMotorOutputPercent());
     	
     }
 
@@ -112,5 +117,22 @@ public class Drivetrain extends Subsystem {
     	rightBack.set(ControlMode.PercentOutput,0.0);
 
     }
+
+    public void resetGryo() {
+		gyro.reset();
+	}
+
+	//Gets currect gyro angle
+	public double getGyroAngle() {
+		return gyro.getAngleX();
+	}
+	
+	public void calibrateGyro() {
+		gyro.calibrate();
+		
+	}
+	public ADIS16448_IMU getGyro() {
+		return gyro;
+	}
 }
 

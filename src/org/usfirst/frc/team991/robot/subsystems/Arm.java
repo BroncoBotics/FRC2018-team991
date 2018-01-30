@@ -2,6 +2,7 @@ package org.usfirst.frc.team991.robot.subsystems;
 
 import org.usfirst.frc.team991.robot.RobotMap;
 import org.usfirst.frc.team991.robot.commands.makeSuckerSuck;
+import org.usfirst.frc.team991.robot.commands.runArmWithStick;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -14,22 +15,25 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Arm extends Subsystem {
 		
-	TalonSRX actLeft = new TalonSRX(RobotMap.actuatorLeft);
-	TalonSRX actRight = new TalonSRX(RobotMap.actuatorRight);
+	TalonSRX actuator = new TalonSRX(RobotMap.armPrimary);
+	
 	
 	
 	
     public void initDefaultCommand() {
-    	setDefaultCommand(new makeSuckerSuck());
+    	setDefaultCommand(new runArmWithStick());
     }
     
     public void moveArmPower(double power) {
-    	actLeft.set(ControlMode.PercentOutput,power);
-    	actRight.set(ControlMode.PercentOutput,-power);
+    	if(Math.abs(power) > 0.05) {
+    		actuator.set(ControlMode.PercentOutput,power);
+    	} else {
+    		actuator.set(ControlMode.PercentOutput,0.0);
+    	}
     }
 
     public void stop() {
-    	actLeft.set(ControlMode.PercentOutput,0.0);
+    	actuator.set(ControlMode.PercentOutput,0.0);
     }
 }
 

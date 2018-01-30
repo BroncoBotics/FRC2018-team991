@@ -7,26 +7,30 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class runArmWithStick extends Command {
+public class resetGyro extends Command {
 
-    public runArmWithStick() {
+	private Boolean complete;
+	
+    public resetGyro() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.arm);
+    	requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	complete = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.moveArmPower(Robot.oi.getGamepad1().getRawAxis(1));
+    	Robot.drivetrain.resetGryo();
+    	complete = true;
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return complete;
     }
 
     // Called once after isFinished returns true
