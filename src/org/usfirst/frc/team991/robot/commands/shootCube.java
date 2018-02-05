@@ -30,9 +30,9 @@ public class shootCube extends CommandGroup {
     	
     	addSequential(new popControl(GearSetting.RELEASE));
     	addSequential(new WaitCommand(0.1));
-    	addSequential(new popControl(GearSetting.PUSH));
+    	//addSequential(new popControl(GearSetting.PUSH));
     	addSequential(new WaitCommand(0.35));
-    	addSequential(new popControl(GearSetting.PULL));
+    	//addSequential(new popControl(GearSetting.PULL));
 
     }
 }

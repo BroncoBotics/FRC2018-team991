@@ -31,7 +31,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static Sucker sucker;
 	
-	Command autoCommand;
+	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
 	@Override
@@ -42,12 +42,15 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		sucker = new Sucker();
 		
+		
+		
 		drivetrain.calibrateGyro();
 		drivetrain.resetGryo();
 		
 		chooser.addDefault("No Auto", new NullOp());
 		chooser.addObject("Drive Straight", new DriveStraight(0.75,4));
 		chooser.addObject("Switch is straight ahead", new StraightSwitch());
+		SmartDashboard.putData("Auto Mode", chooser);
 		
 		
 		SmartDashboard.putData(drivetrain);
@@ -72,9 +75,6 @@ public class Robot extends IterativeRobot {
 	    SmartDashboard.putString("Gyro-Y", df.format(drivetrain.getGyro().getAngleY()));
 	    SmartDashboard.putString("Gyro-Z", df.format(drivetrain.getGyro().getAngleZ()));
 	    
-	    SmartDashboard.putString("Accel-X", df.format(drivetrain.getGyro().getAccelX()));
-	    SmartDashboard.putString("Accel-Y", df.format(drivetrain.getGyro().getAccelY()));
-	    SmartDashboard.putString("Accel-Z", df.format(drivetrain.getGyro().getAccelZ()));
 	}
 	@Override
 	public void disabledPeriodic() {
@@ -94,7 +94,14 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		
+		autonomousCommand = chooser.getSelected();
 
+		if (autonomousCommand != null)
+			autonomousCommand.start();
+		
+		Robot.drivetrain.resetGryo();
+		SmartDashboard.putData(drivetrain);
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand

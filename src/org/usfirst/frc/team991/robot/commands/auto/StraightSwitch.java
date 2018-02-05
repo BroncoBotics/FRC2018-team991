@@ -1,5 +1,6 @@
 package org.usfirst.frc.team991.robot.commands.auto;
 
+import org.usfirst.frc.team991.robot.commands.ReleaseCube;
 import org.usfirst.frc.team991.robot.commands.popControl;
 import org.usfirst.frc.team991.robot.subsystems.Pneumatics.GearSetting;
 
@@ -44,11 +45,19 @@ public class StraightSwitch extends CommandGroup {
     	addSequential(new WaitCommand(0.5));
     	
 		if(gameData.charAt(0) == 'L'){
+			addSequential(new autoDrive(0.0,0.15,0.5));
+			addSequential(new DriveStraight(0.3,1));
+			addSequential(new autoDrive(0.0,-0.15,0.5));
+			
 			
 		} else if(gameData.charAt(0) == 'R'){
+			addSequential(new autoDrive(0.0,-0.15,0.5));
+			addSequential(new DriveStraight(0.3,1));
+			addSequential(new autoDrive(0.0,0.15,0.5));
 			
 		}
-    	addSequential(new popControl(GearSetting.RELEASE));
+		addSequential(new ReleaseCube());
+    	
     	
     }
 }

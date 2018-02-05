@@ -13,7 +13,11 @@ public class Pneumatics extends Subsystem {
 	private Compressor compressor = new Compressor();
 	//private AnalogInput psiSensor = new AnalogInput(0);
 	//private DoubleSolenoid pop = new DoubleSolenoid(0,1);
-	private DoubleSolenoid hold = new DoubleSolenoid(2,3);
+	private DoubleSolenoid hold = new DoubleSolenoid(0,1);
+	
+	public Pneumatics() {
+		
+	}
 	
     public void initDefaultCommand() {}
     
@@ -27,12 +31,6 @@ public class Pneumatics extends Subsystem {
     public Compressor getComp() {
     	return compressor;
     }
-   /* public void pushCube() {
-    	pop.set(DoubleSolenoid.Value.kForward);
-    }
-    public void pullCube() {
-    	pop.set(DoubleSolenoid.Value.kReverse);
-    }*/
     public void holdCube() {
     	hold.set(DoubleSolenoid.Value.kReverse);
     }
@@ -41,7 +39,7 @@ public class Pneumatics extends Subsystem {
     }
     
     public enum GearSetting {
-    	PUSH,PULL,HOLD,RELEASE
+    	HOLD,RELEASE,NONE
     }
 }
 
