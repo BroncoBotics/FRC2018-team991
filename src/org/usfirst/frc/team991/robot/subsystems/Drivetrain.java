@@ -12,8 +12,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.analog.adis16448.frc.ADIS16448_IMU;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -27,6 +30,7 @@ public class Drivetrain extends Subsystem {
 	TalonSRX rightFront;
 	TalonSRX leftBack;
 	TalonSRX rightBack;
+	Potentiometer meter;
 	
 	private ADIS16448_IMU gyro;
 
@@ -36,7 +40,15 @@ public class Drivetrain extends Subsystem {
 		leftBack = new TalonSRX(RobotMap.leftBack);
 		rightBack = new TalonSRX(RobotMap.rightBack);
 		
+		
+		AnalogInput ai = new AnalogInput(0);
+		meter = new AnalogPotentiometer(ai, 99, 1);
+		
 		gyro = new ADIS16448_IMU();
+	}
+	
+	public double getPotent() {
+		return meter.get();
 	}
 	
     public void initDefaultCommand() {
@@ -99,12 +111,12 @@ public class Drivetrain extends Subsystem {
     	
     	DecimalFormat df = new DecimalFormat("#.##");
     	DecimalFormat df2 = new DecimalFormat("##.##");
-    	SmartDashboard.putString("Left Motor Speed", df.format(leftMotorSpeed));
+    /*	SmartDashboard.putString("Left Motor Speed", df.format(leftMotorSpeed));
     	SmartDashboard.putString("Right Motor Speed", df.format(rightMotorSpeed));
     	
-    	SmartDashboard.putNumber("Gyro AngleX", gyro.getAngleX());
+    /*	SmartDashboard.putNumber("Gyro AngleX", gyro.getAngleX());
     	SmartDashboard.putNumber("Gyro AngleY", gyro.getAngleY());
-    	SmartDashboard.putNumber("Gyro AngleZ", gyro.getAngleZ());
+    	SmartDashboard.putNumber("Gyro AngleZ", gyro.getAngleZ());*/
     	
     	
     }

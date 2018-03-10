@@ -28,11 +28,14 @@ public class shootCube extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addSequential(new popControl(GearSetting.RELEASE));
+    	addSequential(new PullPunch());
     	addSequential(new WaitCommand(0.1));
-    	//addSequential(new popControl(GearSetting.PUSH));
-    	addSequential(new WaitCommand(0.35));
-    	//addSequential(new popControl(GearSetting.PULL));
+    	addSequential(new ReleaseCube());
+    	
+    	addSequential(new WaitCommand(0.75));
+    	//addSequential(new Punch());
+    	//addSequential(new WaitCommand(0.5));
+    	addSequential(new Punch());
 
     }
 }

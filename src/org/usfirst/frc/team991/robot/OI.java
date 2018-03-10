@@ -8,6 +8,8 @@
 package org.usfirst.frc.team991.robot;
 
 import org.usfirst.frc.team991.robot.commands.HoldCube;
+import org.usfirst.frc.team991.robot.commands.PullPunch;
+import org.usfirst.frc.team991.robot.commands.Punch;
 import org.usfirst.frc.team991.robot.commands.ReleaseCube;
 import org.usfirst.frc.team991.robot.commands.popControl;
 import org.usfirst.frc.team991.robot.commands.resetGyro;
@@ -36,10 +38,9 @@ public class OI {
 	
 	Button button_a = new JoystickButton(gamepad1, 1),
 			button_b = new JoystickButton(gamepad1, 2),
-			
-			button_y = new JoystickButton(gamepad0, 4),
-			button_rb = new JoystickButton(gamepad0, 5),
-			button_lb = new JoystickButton(gamepad0, 6);
+			button_x = new JoystickButton(gamepad1, 3),
+			button_y = new JoystickButton(gamepad1, 4),
+			button_rb = new JoystickButton(gamepad1, 6);
 	
 	public Joystick getGamepad0(){
 		return gamepad0;
@@ -50,8 +51,14 @@ public class OI {
 	
 	public OI() {
 		//button_x.whenPressed(new shootCube());
-		button_b.whenPressed(new HoldCube());
+		
 		button_a.whenPressed(new ReleaseCube());
+		button_b.whenPressed(new HoldCube());
+		
+		button_x.whenPressed(new PullPunch());
+		button_y.whenPressed(new Punch());
+		
+		button_rb.whenPressed(new shootCube());
 		
 		
 		
@@ -62,7 +69,7 @@ public class OI {
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
 	// commands the same as any other Button.
-
+ 
 	//// TRIGGERING COMMANDS WITH BUTTONS
 	// Once you have a button, it's trivial to bind it to a button in one of
 	// three ways:

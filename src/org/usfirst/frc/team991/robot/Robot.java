@@ -7,7 +7,10 @@
 
 package org.usfirst.frc.team991.robot;
 
+//import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -16,10 +19,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.text.DecimalFormat;
 
+import org.usfirst.frc.team991.robot.commands.HoldCube;
+import org.usfirst.frc.team991.robot.commands.shootCube;
 import org.usfirst.frc.team991.robot.commands.auto.DriveStraight;
 import org.usfirst.frc.team991.robot.commands.auto.NullOp;
+import org.usfirst.frc.team991.robot.commands.auto.StraightScale;
 import org.usfirst.frc.team991.robot.commands.auto.StraightSwitch;
+import org.usfirst.frc.team991.robot.commands.auto.gyroTurn;
 import org.usfirst.frc.team991.robot.subsystems.Arm;
+import org.usfirst.frc.team991.robot.subsystems.Climber;
 import org.usfirst.frc.team991.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team991.robot.subsystems.Pneumatics;
 import org.usfirst.frc.team991.robot.subsystems.Sucker;
@@ -30,9 +38,13 @@ public class Robot extends IterativeRobot {
 	public static Pneumatics pneumatics;
 	public static OI oi;
 	public static Sucker sucker;
+	public static Climber climber;
+	public static String gameData;
+	
+	private int autoCheck = 0;
 	
 	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	SendableChooser<String> chooser = new SendableChooser<>();
 
 	@Override
 	public void robotInit() {
@@ -41,20 +53,36 @@ public class Robot extends IterativeRobot {
 		pneumatics = new Pneumatics();
 		oi = new OI();
 		sucker = new Sucker();
+		climber = new Climber();
 		
 		
 		
 		drivetrain.calibrateGyro();
 		drivetrain.resetGryo();
-		
+		/*
 		chooser.addDefault("No Auto", new NullOp());
-		chooser.addObject("Drive Straight", new DriveStraight(0.75,4));
-		chooser.addObject("Switch is straight ahead", new StraightSwitch());
+		//addSequential(new DriveStraight(0.75,2.65));
+		chooser.addObject("Drive Straight - Far Left Position", new DriveStraight(0.75,2.65));
+		//chooser.addObject("Hold Cube test", new HoldCube());
+		//chooser.addObject("Shoot Cube test", new shootCube());
+		chooser.addObject("Switch - Close Left Position", new StraightSwitch());
+		chooser.addObject("Scale - Far Left Position", new StraightScale());
+		*/
+		chooser.addDefault("No Auto", "No Auto");
+		chooser.addObject("Drive Straight - Far Left", "Drive Straight");
+		chooser.addObject("Switch - Close Left Position", "Switch");
+		chooser.addObject("Scale - far Left", "Scale");
 		SmartDashboard.putData("Auto Mode", chooser);
 		
 		
-		SmartDashboard.putData(drivetrain);
-		SmartDashboard.putData(arm);
+		
+		
+		//CameraServer.getInstance().startAutomaticCapture();
+		
+		/*UsbCamera camera = new UsbCamera("cam0",0);
+		camera.setFPS(22);
+		camera.setResolution(640, 480); //320 = width, 240 = height
+		CameraServer.getInstance().startAutomaticCapture(camera);*/
 		
 	}
 
@@ -70,10 +98,16 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotPeriodic(){
-		DecimalFormat df = new DecimalFormat("##.##");
-		SmartDashboard.putString("Gyro-X", df.format(drivetrain.getGyro().getAngleX()));
-	    SmartDashboard.putString("Gyro-Y", df.format(drivetrain.getGyro().getAngleY()));
-	    SmartDashboard.putString("Gyro-Z", df.format(drivetrain.getGyro().getAngleZ()));
+		//SmartDashboard.putData("Auto Mode", chooser);
+		autoCheck+=1;
+		if(autoCheck == 200) {
+			SmartDashboard.putData("Auto Mode", chooser);
+			System.out.println(chooser.getSelected());
+			autoCheck = 0;
+		}
+		//System.out.println(chooser.getSelected().getName());
+	    
+	    
 	    
 	}
 	@Override
@@ -95,13 +129,25 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		
-		autonomousCommand = chooser.getSelected();
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		autonomousCommand = new NullOp();
+		if(chooser.getSelected().equals("No Auto")) {
+			autonomousCommand = new NullOp();
+		}else if(chooser.getSelected().equals("Switch")) {
+			autonomousCommand = new StraightSwitch();
+		}else if(chooser.getSelected().equals("Scale")) {
+			autonomousCommand = new StraightScale();
+		}else if(chooser.getSelected().equals("Drive Straight")) {
+			autonomousCommand = new DriveStraight(0.75,2.65);
+		}
+		
+	
 
 		if (autonomousCommand != null)
 			autonomousCommand.start();
 		
 		Robot.drivetrain.resetGryo();
-		SmartDashboard.putData(drivetrain);
+		
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -114,6 +160,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		
+		/*DecimalFormat df = new DecimalFormat("##.##");
+		SmartDashboard.putString("Gyro-X", df.format(drivetrain.getGyro().getAngleX()));
+	    SmartDashboard.putString("Gyro-Y", df.format(drivetrain.getGyro().getAngleY()));
+	    SmartDashboard.putString("Gyro-Z", df.format(drivetrain.getGyro().getAngleZ()));*/
+	    //SmartDashboard.putNumber("Potent", Robot.drivetrain.getPotent());
 	}
 
 	@Override
@@ -129,4 +181,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 	}
+	
+	
 }

@@ -27,10 +27,14 @@ public class arcadeDriveWithJoystick extends Command {
     protected void execute() {
     	
     	DecimalFormat df = new DecimalFormat("#.##");
-    	SmartDashboard.putString("Driver 1 : Left Stick Y", df.format(Robot.oi.getGamepad0().getRawAxis(1)));
+    	
+    	double left = -Robot.oi.getGamepad0().getRawAxis(1);
+    	
+    	SmartDashboard.putString("Driver 1 : Left Stick Y", df.format(left));
     	SmartDashboard.putString("Driver 1 : Right Stick X", df.format(Robot.oi.getGamepad0().getRawAxis(4)));
     	//Robot.drivetrain.tankDrive(Robot.oi.getGamepad0().getRawAxis(1), Robot.oi.getGamepad0().getRawAxis(5));
-    	Robot.drivetrain.arcadeDrive(-Robot.oi.getGamepad0().getRawAxis(1), Robot.oi.getGamepad0().getRawAxis(4), true);
+    	
+    	Robot.drivetrain.arcadeDrive(left, Robot.oi.getGamepad0().getRawAxis(4), true);
     }
 
     // Make this return true when this Command no longer needs to run execute()
