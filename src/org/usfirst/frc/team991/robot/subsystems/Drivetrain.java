@@ -51,6 +51,17 @@ public class Drivetrain extends Subsystem {
 		return meter.get();
 	}
 	
+	public void readUsage() {
+		DecimalFormat df = new DecimalFormat("###.##");
+		String lf = df.format(leftFront.getOutputCurrent()) + " / " + df.format(leftFront.getTemperature()) + " / " + df.format(leftFront.getBusVoltage()) + " / " + df.format(leftFront.getMotorOutputPercent()) + " / " + df.format(leftFront.getMotorOutputVoltage());
+		String rf = df.format(rightFront.getOutputCurrent()) + " / " + df.format(rightFront.getTemperature()) + " / " + df.format(rightFront.getBusVoltage()) + " / " + df.format(rightFront.getMotorOutputPercent()) + " / " + df.format(rightFront.getMotorOutputVoltage());
+		String lb = df.format(leftBack.getOutputCurrent()) + " / " + df.format(leftBack.getTemperature()) + " / " + df.format(leftBack.getBusVoltage()) + " / " + df.format(leftBack.getMotorOutputPercent()) + " / " + df.format(leftBack.getMotorOutputVoltage());
+		String rb = df.format(rightBack.getOutputCurrent()) + " / " + df.format(rightBack.getTemperature()) + " / " + df.format(rightBack.getBusVoltage()) + " / " + df.format(rightBack.getMotorOutputPercent()) + " / " + df.format(rightBack.getMotorOutputVoltage());
+		String newline = System.getProperty("line.separator");
+		System.out.println("Output Current / Temperature / Bus Voltage / Output Percent / Output Voltage" + newline + lf + newline + rf + newline + lb + newline+ rb);
+		
+	}
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());

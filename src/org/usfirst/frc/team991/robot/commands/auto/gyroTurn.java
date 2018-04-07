@@ -42,7 +42,7 @@ public class gyroTurn extends Command {
     	
         gAngle = Robot.drivetrain.getGyro().getAngleX();
         
-        if(Math.abs(gAngle) < (Math.abs(Angle)-12)) {
+        if(Math.abs(gAngle) < (Math.abs(Angle)-5)) {
         	return false;
         } else {
         	return true;

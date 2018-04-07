@@ -33,34 +33,42 @@ public class StraightScale extends CommandGroup {
     	if(Robot.gameData != null) {
     	String gameData = Robot.gameData;
 		
+    	if(gameData == null) {
+    		System.out.println("NO GAME DATA FOUND THIS PRINT IS LOGICALLY IMPOSSIBLE");
+    	}
     	//
-    	addSequential(new DriveStraight(0.55,3.65));
-    	addSequential(new gyroTurn(0.5,-85));
+    	
+    	addSequential(new DriveStraight(0.55,3.0));
+    	addSequential(new gyroTurn(0.35,35));
     //	addSequential(new WaitCommand(5));
     	
     	
-    	if(gameData == null) {
-    		System.out.println("NO GAME DATA FOUND");
-    	}
     	
+    
     	
     	System.out.println("GAME DATA VALUES FOUND: " + gameData);
+    	new DriveStraight(0.5,0.75);
     	if(gameData.charAt(1) == 'L'){
-    		addSequential(new DriveStraight(0.4,1));	
-    	} else if(gameData.charAt(1) == 'R'){
-    		addSequential(new DriveStraight(0.55,(3.45*0.75)));
-    	}
+    		addSequential(new WaitCommand(4));
+    		addSequential(new HoldCube());
+    		addSequential(new raiseArm(0.75,2.0));
+    		addSequential(new WaitCommand(0.5));
+    		addSequential(new shootCube());
     		
+    	} else if(gameData.charAt(1) == 'R'){
+    		System.out.println("Bad RNG");
+    	}
+    	/*
     	addSequential(new WaitCommand(0.5));
 		addSequential(new DriveStraight(-0.65,0.3));
-		//addSequential(new WaitCommand(0.1));
+		//addSequential(new WaitCommand(0.1))
 		addSequential(new DriveStraight(0.65,0.3));
 		addSequential(new HoldCube());
 		addSequential(new WaitCommand(0.5));
 		addSequential(new raiseArm(0.75,3.3));
-		addSequential(new gyroTurn(0.5,75));
+		addSequential(new gyroTurn(0.55,85));
 		addSequential(new DriveStraight(0.4,0.95));
-		addSequential(new shootCube());
+		addSequential(new shootCube());*/
     	
     	
     	

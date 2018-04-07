@@ -25,6 +25,7 @@ import org.usfirst.frc.team991.robot.commands.auto.DriveStraight;
 import org.usfirst.frc.team991.robot.commands.auto.NullOp;
 import org.usfirst.frc.team991.robot.commands.auto.StraightScale;
 import org.usfirst.frc.team991.robot.commands.auto.StraightSwitch;
+import org.usfirst.frc.team991.robot.commands.auto.StraightSwitch2;
 import org.usfirst.frc.team991.robot.commands.auto.gyroTurn;
 import org.usfirst.frc.team991.robot.subsystems.Arm;
 import org.usfirst.frc.team991.robot.subsystems.Climber;
@@ -40,6 +41,8 @@ public class Robot extends IterativeRobot {
 	public static Sucker sucker;
 	public static Climber climber;
 	public static String gameData;
+	
+	private double gAngle = 0;
 	
 	private int autoCheck = 0;
 	
@@ -72,6 +75,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Drive Straight - Far Left", "Drive Straight");
 		chooser.addObject("Switch - Close Left Position", "Switch");
 		chooser.addObject("Scale - far Left", "Scale");
+		//chooser.addObject("Zach's switch", "Zach");
 		SmartDashboard.putData("Auto Mode", chooser);
 		
 		
@@ -98,13 +102,14 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotPeriodic(){
-		//SmartDashboard.putData("Auto Mode", chooser);
-		autoCheck+=1;
-		if(autoCheck == 200) {
+		SmartDashboard.putData("Auto Mode", chooser);
+		/*autoCheck+=1;
+		if(autoCheck == 75) {
 			SmartDashboard.putData("Auto Mode", chooser);
-			System.out.println(chooser.getSelected());
+			//System.out.println(chooser.getSelected());
+			drivetrain.readUsage();
 			autoCheck = 0;
-		}
+		}*/
 		//System.out.println(chooser.getSelected().getName());
 	    
 	    
@@ -138,15 +143,20 @@ public class Robot extends IterativeRobot {
 		}else if(chooser.getSelected().equals("Scale")) {
 			autonomousCommand = new StraightScale();
 		}else if(chooser.getSelected().equals("Drive Straight")) {
-			autonomousCommand = new DriveStraight(0.75,2.65);
+			autonomousCommand = new DriveStraight(0.5,1.5);
+		}else if(chooser.getSelected().equals("Zach")) {
+			autonomousCommand = new StraightSwitch2();
 		}
 		
 	
 
-		if (autonomousCommand != null)
+		if (autonomousCommand != null) {
+			Robot.drivetrain.resetGryo();
 			autonomousCommand.start();
+		}
+			
 		
-		Robot.drivetrain.resetGryo();
+		
 		
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
