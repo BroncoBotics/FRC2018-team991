@@ -72,9 +72,9 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Scale - Far Left Position", new StraightScale());
 		*/
 		chooser.addDefault("No Auto", "No Auto");
-		chooser.addObject("Drive Straight - Far Left", "Drive Straight");
-		chooser.addObject("Switch - Close Left Position", "Switch");
-		chooser.addObject("Scale - far Left", "Scale");
+		chooser.addObject("Drive Straight NO SWITCH", "Drive Straight");
+		chooser.addObject("Switch RIGHT", "Switch");
+		chooser.addObject("Switch LEFT", "Zach");
 		//chooser.addObject("Zach's switch", "Zach");
 		SmartDashboard.putData("Auto Mode", chooser);
 		

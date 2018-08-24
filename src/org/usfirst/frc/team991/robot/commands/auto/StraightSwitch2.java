@@ -43,18 +43,28 @@ public class StraightSwitch2 extends CommandGroup {
     	
     	
     	if(gameData != null) {
-    		if(gameData.charAt(0) == 'R'){
-    			addSequential(new DriveStraight(0.55,0.8));
+    		if(gameData.charAt(0) == 'L') {
+    			addSequential(new DriveStraight(-0.35,2.3));
+    			addSequential(new WaitCommand(1.0));
+    			addSequential(new raiseArm(0.75,3.3));
+    		}else if(gameData.charAt(0) == 'R') {
+    			addSequential(new DriveStraight(-0.35,2.3));
     			
-    			addSequential(new WaitCommand(5));
-    			addSequential(new HoldCube());
-            	addSequential(new WaitCommand(0.5));
-            	addSequential(new raiseArm(0.70,1.8));
-        		addSequential(new DriveStraight(0.45,0.8));
-        		addSequential(new shootCube());
-    		} else if(gameData.charAt(0) == 'L'){
-    			addSequential(new DriveStraight(0.55,0.8));
-    			addSequential(new DriveStraight(0.45,0.8));
+    			//testing left
+    		/*	addSequential(new DriveStraight(-0.35,1.0));
+    			addSequential(new WaitCommand(1));
+    			addSequential(new gyroTurn(0.4,70)); */
+    			
+    			
+    			/*addSequential(new WaitCommand(0.5));
+    			addSequential(new DriveStraight(-0.45,2.25));
+    			addSequential(new WaitCommand(2));
+    			addSequential(new gyroTurn(0.4,-70));
+    			addSequential(new WaitCommand(0.5));
+    			addSequential(new DriveStraight(-0.35,1.2));
+    			addSequential(new WaitCommand(0.5));
+    			addSequential(new raiseArm(0.75,3.3));*/
+    			
     		}
     		
         	

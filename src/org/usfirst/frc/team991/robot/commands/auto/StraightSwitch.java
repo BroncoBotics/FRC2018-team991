@@ -44,11 +44,11 @@ public class StraightSwitch extends CommandGroup {
     	
     	if(gameData != null) {
     		if(gameData.charAt(0) == 'R') {
-    			addSequential(new DriveStraight(-0.35,2.0));
+    			addSequential(new DriveStraight(-0.35,2.3));
     			addSequential(new WaitCommand(1.0));
     			addSequential(new raiseArm(0.75,3.3));
     		}else if(gameData.charAt(0) == 'L') {
-    			addSequential(new DriveStraight(-0.35,2.0));
+    			addSequential(new DriveStraight(-0.35,2.3));
     			
     			//testing left
     		/*	addSequential(new DriveStraight(-0.35,1.0));

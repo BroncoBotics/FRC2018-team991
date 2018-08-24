@@ -34,7 +34,7 @@ public class arcadeDriveWithJoystick extends Command {
     	SmartDashboard.putString("Driver 1 : Right Stick X", df.format(Robot.oi.getGamepad0().getRawAxis(4)));*/
     	//Robot.drivetrain.tankDrive(Robot.oi.getGamepad0().getRawAxis(1), Robot.oi.getGamepad0().getRawAxis(5));
     	
-    	Robot.drivetrain.arcadeDrive(left, (Robot.oi.getGamepad0().getRawAxis(4)*0.7), true);
+    	Robot.drivetrain.arcadeDrive(left, (Robot.oi.getGamepad0().getRawAxis(4)*1), true);
     }
 
     // Make this return true when this Command no longer needs to run execute()
